@@ -4,13 +4,14 @@ import ReactDOM from "react-dom";
 
 import { hitAPI } from "./api";
 
-import { Activities } from "./Components";
+import { Activities, Routines } from "./Components";
 
 const App = () => {
   return (
     <>
-      <h1>Hello World</h1>
+      <h1>Fitness Tracker</h1>
       <Activities />
+      <Routines />
     </>
   );
 };

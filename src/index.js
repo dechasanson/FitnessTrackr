@@ -1,19 +1,41 @@
 import React from "react";
-
 import ReactDOM from "react-dom";
-
-import { hitAPI } from "./api";
-
 import { Activities, Routines } from "./Components";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const App = () => {
   return (
-    <>
-      <h1>Fitness Tracker</h1>
-      <Activities />
-      <Routines />
-    </>
+    <div id="App">
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/Components/Activities">Activities</Link>
+        <Link to="/Components/Routines">Routines</Link>
+      </nav>
+      <main>
+        <Route path="/">
+          <h1>Fitness Tracker home page</h1>
+        </Route>
+        <Route
+          path="/Components/Activities"
+          render={() => {
+            return <Activities />;
+          }}
+        />
+
+        <Route
+          path="/Components/Routines"
+          render={() => {
+            return <Routines />;
+          }}
+        />
+      </main>
+    </div>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(
+  <Router>
+    <App />
+  </Router>,
+  document.getElementById("app")
+);

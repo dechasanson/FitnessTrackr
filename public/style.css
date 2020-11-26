@@ -1,0 +1,93 @@
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100vh;
+  font-family: sans-serif;
+  width: 100vw;
+  background-color: lightgray;
+  overflow: scroll;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-rows: 1fr;
+}
+
+a {
+  padding: 10px;
+}
+
+a:link,
+a:visited {
+  background-color: #3af2bf;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-right: 15px;
+}
+
+a:hover,
+a:active {
+  background-color: #3dfcfc;
+}
+
+header {
+  grid-row: 1 / -1;
+  background-color: #43bae6;
+  padding: 1em;
+}
+
+header > h1 {
+  grid-column: 1;
+}
+
+header .nav {
+  grid-column: 2;
+}
+
+.activities {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
+  grid-gap: 10px;
+  margin: 10px 10px 10px 10px;
+}
+
+.activity {
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  box-shadow: 3px 3px 5px black;
+  color: white;
+  background-color: #43bae6;
+}
+
+.routines {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
+  grid-gap: 15px;
+  margin: 10px 10px 10px 10px;
+}
+
+.routine {
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  box-shadow: 3px 3px 5px black;
+  color: white;
+  background-color: #3d97fc;
+}
+
+.routine h3 {
+  font-size: 18px;
+  text-decoration: underline;
+}

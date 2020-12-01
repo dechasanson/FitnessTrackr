@@ -19,12 +19,17 @@
   grid-template-rows: 1fr;
 }
 
-a {
+a,
+.auth button,
+.logout button {
   padding: 10px;
+  margin-left: 10px;
 }
 
 a:link,
-a:visited {
+a:visited,
+.auth button,
+.logout button {
   background-color: #3af2bf;
   color: white;
   padding: 14px 25px;
@@ -37,6 +42,12 @@ a:visited {
 a:hover,
 a:active {
   background-color: #3dfcfc;
+}
+
+.auth,
+.auth input {
+  padding: 10px;
+  margin-right: 5px;
 }
 
 header {

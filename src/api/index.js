@@ -8,8 +8,37 @@ export const clearToken = () => {
   localStorage.removeItem("auth-token");
 };
 
-const setToken = (token) => {
+export const setToken = (token) => {
   localStorage.setItem("auth-token", token);
+};
+
+export const auth = async (username, password, isNew = false) => {
+  let url = `${BASE_URL}/users` + (isNew ? "/register" : "/login");
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: buildHeaders(),
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    });
+    console.log("response", response);
+    const data = await response.json();
+
+    // if (data.error) {
+    //   throw Error(data.message);
+    // }
+
+    // if (data.token) {
+    //   setToken(data.token);
+    // }
+
+    return data;
+  } catch (err) {
+    console.log("error auth function:", err);
+  }
 };
 
 function buildHeaders() {

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap");
+
 * {
   border: 0;
   margin: 0;
@@ -22,11 +24,18 @@
 button {
   box-shadow: 0 9px #999;
   border-radius: 15px;
+  font-family: "Major Mono Display", monospace;
+  font-weight: bold;
 }
 
 button:active {
   box-shadow: 0 5px #666;
   transform: translateY(4px);
+}
+
+main {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 a,
@@ -41,7 +50,7 @@ a:visited,
 .auth button,
 .logout button {
   background-color: #3af2bf;
-  color: white;
+  color: black;
   padding: 14px 25px;
   text-align: center;
   text-decoration: none;
@@ -68,10 +77,21 @@ header {
   grid-row: 1 / -1;
   background-color: #43bae6;
   padding: 1em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-rows: 1fr;
+  font-family: "Major Mono Display", monospace;
+}
+
+nav {
+  grid-row: 1;
+  grid-column: 2;
+  font-weight: bold;
 }
 
 header > h1 {
   grid-column: 1;
+  grid-row: 1;
 }
 
 header .nav {

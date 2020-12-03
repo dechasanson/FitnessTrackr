@@ -20,7 +20,7 @@ const App = () => {
       </header>
       <main>
         <Route path="/">
-          <h1>Home</h1>
+          {/* <h1>Home</h1> */}
           {isLoggedIn ? (
             <>
               <div className="logout">

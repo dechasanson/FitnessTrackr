@@ -19,6 +19,16 @@
   grid-template-rows: 1fr;
 }
 
+button {
+  box-shadow: 0 9px #999;
+  border-radius: 15px;
+}
+
+button:active {
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
 a,
 .auth button,
 .logout button {
@@ -37,11 +47,15 @@ a:visited,
   text-decoration: none;
   display: inline-block;
   margin-right: 15px;
+  box-shadow: 0 9px #999;
+  border-radius: 15px;
 }
 
 a:hover,
 a:active {
   background-color: #3dfcfc;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }
 
 .auth,
@@ -101,4 +115,8 @@ header .nav {
 .routine h3 {
   font-size: 18px;
   text-decoration: underline;
+}
+
+.message {
+  color: red;
 }

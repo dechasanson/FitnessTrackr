@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 
-import { auth, setToken } from "../api";
+import { auth } from "../api";
 
 const Auth = (props) => {
-  const { isLoggedIn, setIsLoggedIn } = props;
+  const { setIsLoggedIn, message, setMessage } = props;
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
+
+  function logUserIn() {
+    setIsLoggedIn(true);
+  }
 
   return (
     <form className="auth" onSubmit={(event) => event.preventDefault()}>
       <h3>Log-In or Sign-Up</h3>
-      {errorMessage ? <h5 className="error">{errorMessage}</h5> : null}
+      <h5 className="message">{message}</h5>
       <input
         type="text"
         value={username}
@@ -28,18 +31,22 @@ const Auth = (props) => {
         className="login"
       />
       <button
-        onClick={(event) => {
+        onClick={async (event) => {
           event.preventDefault();
-          auth(username, password, true).then((result) => {
-            if (result.error) {
-              setErrorMessage(result.error);
-            }
 
-            console.log("This should be the successful response:", result);
-            setToken(result.token);
-            setIsLoggedIn(true);
-            console.log("User is logged in:", isLoggedIn);
-          });
+          try {
+            let result = await auth(username, password, true);
+
+            if (result.error) {
+              setMessage(result.error);
+              return <h5 className="message">{message}</h5>;
+            } else {
+              logUserIn();
+              setMessage(result.message);
+            }
+          } catch (err) {
+            console.error(err);
+          }
         }}
       >
         Register
@@ -47,13 +54,19 @@ const Auth = (props) => {
       <button
         onClick={async (event) => {
           event.preventDefault();
-          auth(username, password).then((result) => {
+          try {
+            let result = await auth(username, password);
+
             if (result.error) {
-              setErrorMessage(result.error);
+              setMessage(result.error);
+              return <h5 className="message">{message}</h5>;
+            } else {
+              logUserIn();
+              setMessage(result.message);
             }
-            setIsLoggedIn(true);
-            console.log("User is logged in:", isLoggedIn);
-          });
+          } catch (err) {
+            console.error(err);
+          }
         }}
       >
         Log In

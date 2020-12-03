@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Activities, Routines, Auth } from "./Components";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { clearToken, getToken } from "./api";
+import { clearToken } from "./api";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [message, setMessage] = useState("");
+
   return (
     <div className="App">
       <header>
@@ -18,17 +20,18 @@ const App = () => {
       </header>
       <main>
         <Route path="/">
-          <h1>Home</h1>
+          {/* <h1>Home</h1> */}
           {isLoggedIn ? (
             <>
               <div className="logout">
-                <h1 className="loginMessage">Thanks for logging in!</h1>
+                <h1 className="loginMessage">{message}</h1>
                 <span>
                   <button
                     className="logout-button"
                     onClick={() => {
                       clearToken();
                       setIsLoggedIn(false);
+                      setMessage("");
                     }}
                   >
                     LOG OUT
@@ -37,7 +40,12 @@ const App = () => {
               </div>
             </>
           ) : (
-            <Auth setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+            <Auth
+              setIsLoggedIn={setIsLoggedIn}
+              isLoggedIn={isLoggedIn}
+              message={message}
+              setMessage={setMessage}
+            />
           )}
         </Route>
         <Route

@@ -1,21 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { fetchAPI, BASE_URL } from "../api";
+const Activities = (props) => {
+  const { activityList } = props;
 
-const Activities = () => {
-  const [activities, setActivities] = useState([]);
-
-  fetchAPI(BASE_URL + `/activities`).then((data) => {
-    setActivities(data);
-  });
+  /*const handleDelete = (id, index) => {
+    deleteActivity(id).then((results) => {
+      const activitesCopy = activityList.slice();
+      activityCopy.splice(index, 1);
+      setActivityList(activitesCopy);
+    });*/
 
   return (
     <div className="Activities">
-      {activities.map((activity, index) => {
+      {activityList.map((activity, index) => {
         return (
           <div className="activity" key={index}>
             <h3>{activity.name}</h3>
             <p>{activity.description}</p>
+            {/*
+            <button
+              onClick={() => {
+                handleDelete(activity.id, index);
+              }}
+            >
+              Delete
+            </button>
+            */}
           </div>
         );
       })}

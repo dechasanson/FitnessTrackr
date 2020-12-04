@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import { fetchAPI, BASE_URL } from "../api";
-
-const Routines = () => {
-  const [routines, setRoutines] = useState([]);
-
-  useEffect(() => {
-    fetchAPI(BASE_URL + `/routines`)
-      .then((data) => {
-        setRoutines(data);
-      })
-      .catch(console.error);
-  }, []);
+const Routines = (props) => {
+  const { routineList } = props;
 
   return (
     <div className="routines">
-      {routines.map((routine, index) => {
+      {routineList.map((routine, index) => {
         return (
           <div className="routine" key={index}>
             <h3>{routine.name}</h3>

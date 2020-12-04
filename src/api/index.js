@@ -41,17 +41,84 @@ function buildHeaders() {
   return base;
 }
 
-export const fetchAPI = async (url) => {
+export const fetchAPI = async (url, method = "GET", sendData = null) => {
   const fetchOptions = {
+    method: method,
     headers: buildHeaders(),
   };
 
-  // if (sendData) {
-  //   fetchOptions.body = JSON.stringify(sendData);
-  // }
+  if (sendData) {
+    fetchOptions.body = JSON.stringify(sendData);
+  }
 
   const response = await fetch(url, fetchOptions);
   const data = await response.json();
 
   return data;
 };
+
+export const addActivity = async (newActivity) => {
+  console.log("new activity inside of add activity", newActivity);
+  const url = `${BASE_URL}/activities`;
+  const fetchOptions = {
+    method: "POST",
+    headers: buildHeaders(),
+    body: JSON.stringify(newActivity),
+  };
+
+  const response = await fetch(url, fetchOptions);
+  console.log(" response inside of api index in add activity", response);
+  const data = await response.json();
+
+  console.log("data inside of add activity", data);
+
+  return data;
+};
+
+export const addRoutine = async (newRoutine) => {
+  console.log(newRoutine);
+  const url = `${BASE_URL}/routines`;
+  const fetchOptions = {
+    method: "POST",
+    headers: buildHeaders(),
+    body: JSON.stringify(newRoutine),
+  };
+
+  const response = await fetch(url, fetchOptions);
+  console.log(response);
+  const data = await response.json();
+  console.log("data in api index addroutine", data);
+
+  return data;
+};
+
+/*export const deleteActivity = async (id) => {
+  const url = `${BASE_URL}/activities/${id}`;
+
+  const response = await fetch(url, {
+    method: "DELETE",
+    headers: buildHeaders(),
+  });
+
+  const { data, error } = await response.json();
+
+  if (error) {
+    throw Error(error.message);
+  }
+
+  return data;
+};
+
+/*export const addRoutine = async (newRoutine) => {
+  await fetch("http://fitnesstrac-kr.herokuapp.com/api/routines", {
+    method: "POST",
+    headers: buildHeaders(),
+    body: JSON.stringify({
+      name: "newRoutine.name",
+      goal: "newRoutine.goal",
+    }),
+  });
+  const data = await response.json();
+
+  return data;
+};*/

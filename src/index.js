@@ -7,12 +7,15 @@ import {
   MyRoutines,
   Routines,
   Title,
+  Auth,
 } from "./Components";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { clearToken, getToken } from "./api";
 
 const App = () => {
   const [routineList, setRoutineList] = useState([]);
   const [activityList, setActivityList] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
 
   useEffect(() => {
     fetchAPI(BASE_URL + `/routines`)
@@ -31,9 +34,11 @@ const App = () => {
       })
       .catch(console.error);
   }, []);
+
   return (
     <div className="App">
       <header>
+        <h1>Welcome to Fitness Tracker</h1>
         <nav>
           <Link to="/">Home </Link>
           <Link to="/Components/Activities"> Activities </Link>
@@ -45,6 +50,26 @@ const App = () => {
       <main>
         <Route exact path="/">
           <Title />
+          {isLoggedIn ? (
+            <>
+              <div className="logout">
+                <h1 className="loginMessage">Thanks for logging in!</h1>
+                <span>
+                  <button
+                    className="logout-button"
+                    onClick={() => {
+                      clearToken();
+                      setIsLoggedIn(false);
+                    }}
+                  >
+                    LOG OUT
+                  </button>
+                </span>
+              </div>
+            </>
+          ) : (
+            <Auth setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+          )}
         </Route>
         <Route exact path="/Components/Activities">
           <Activities activityList={activityList} />
@@ -60,8 +85,8 @@ const App = () => {
         </Route>
         <Route exact path="/Components/MyRoutines">
           <MyRoutines
-            activityList={activityList}
-            setActivityList={setActivityList}
+            routineList={routineList}
+            setRoutineList={setRoutineList}
           />
         </Route>
       </main>

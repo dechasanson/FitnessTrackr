@@ -14,13 +14,14 @@ const MyActivities = (props) => {
       name,
       description,
     };
+    console.log("sdfsdf", newActivity);
 
     addActivity(newActivity).then((result) => {
-      const activity = result.activity;
-      const activityListCopy = [...activityList];
-      activityListCopy.push(activity);
+      console.log("this is our result inside of my activitys", result);
+      const activity = result;
+      const activityListCopy = [...activityList, activity];
       setActivityList(activityListCopy);
-      //resetting state to reset form
+      console.log(activityList);
       setName("");
       setDescription("");
     });

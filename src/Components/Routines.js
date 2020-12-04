@@ -11,6 +11,7 @@ const Routines = (props) => {
             <h3>{routine.name}</h3>
             <p>Goal: {routine.goal}</p>
             <p>Created by: {routine.creatorName}</p>
+            <h4>Activities in this Routine:</h4>
             {routine.activities.map((activity, index) => {
               return (
                 <div className="activity" key={index}>

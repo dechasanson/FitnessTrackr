@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { fetchAPI, BASE_URL } from "./api";
 import {
@@ -10,12 +10,13 @@ import {
   Auth,
 } from "./Components";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { clearToken, getToken } from "./api";
+import { clearToken } from "./api";
 
 const App = () => {
   const [routineList, setRoutineList] = useState([]);
   const [activityList, setActivityList] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     fetchAPI(BASE_URL + `/routines`)
@@ -35,6 +36,7 @@ const App = () => {
       .catch(console.error);
   }, []);
 
+
   return (
     <div className="App">
       <header>
@@ -53,13 +55,14 @@ const App = () => {
           {isLoggedIn ? (
             <>
               <div className="logout">
-                <h1 className="loginMessage">Thanks for logging in!</h1>
+                <h1 className="loginMessage">{message}</h1>
                 <span>
                   <button
                     className="logout-button"
                     onClick={() => {
                       clearToken();
                       setIsLoggedIn(false);
+                      setMessage("");
                     }}
                   >
                     LOG OUT
@@ -68,7 +71,12 @@ const App = () => {
               </div>
             </>
           ) : (
-            <Auth setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+            <Auth
+              setIsLoggedIn={setIsLoggedIn}
+              isLoggedIn={isLoggedIn}
+              message={message}
+              setMessage={setMessage}
+            />
           )}
         </Route>
         <Route exact path="/Components/Activities">

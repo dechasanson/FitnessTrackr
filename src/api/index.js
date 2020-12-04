@@ -1,9 +1,5 @@
 export const BASE_URL = "https://fitnesstrac-kr.herokuapp.com/api";
 
-export const getToken = () => {
-  return localStorage.getItem("auth-token");
-};
-
 export const clearToken = () => {
   localStorage.removeItem("auth-token");
 };
@@ -24,12 +20,8 @@ export const auth = async (username, password, isNew = false) => {
         password: password,
       }),
     });
-    console.log("response", response);
-    const data = await response.json();
 
-    if (data.error) {
-      throw Error(data.message);
-    }
+    const data = await response.json();
 
     if (data.token) {
       setToken(data.token);
@@ -37,7 +29,7 @@ export const auth = async (username, password, isNew = false) => {
 
     return data;
   } catch (err) {
-    console.log("error auth function:", err);
+    console.log("Error from API index file:", err);
   }
 };
 
@@ -45,9 +37,6 @@ function buildHeaders() {
   let base = {
     "Content-Type": "application/json",
   };
-  if (getToken()) {
-    base["Authorization"] = `Bearer ${getToken()}`;
-  }
 
   return base;
 }

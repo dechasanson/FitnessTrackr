@@ -288,3 +288,15 @@ main {
   background-color: #3d97fc;
   border-radius: none;
 } */
+
+.routine-modal {
+  width: 75%;
+  height: 200px;
+  z-index: 1;
+  background-color: white;
+  margin: auto auto;
+}
+
+.myRoutines {
+  z-index: -1;
+}

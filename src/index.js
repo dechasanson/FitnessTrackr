@@ -14,7 +14,7 @@ const App = () => {
   const [message, setMessage] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
   const [user, setUser] = useState("");
-  const [routineId, setRoutineId] = useState("");
+  const [routine, setRoutine] = useState("");
 
   useEffect(() => {
     fetchAPI(BASE_URL + `/routines`)
@@ -41,11 +41,23 @@ const App = () => {
     fetchData();
   }, [isLoggedIn]);
 
-  console.log("the routineList is now:", routineList);
+  console.log("active routine is:", routine);
 
   const addNewRoutine = (newRoutine) => {
     return setRoutineList([newRoutine, ...routineList]);
   };
+
+  function updateRoutine(updatedRoutine) {
+    let index = routineList.findIndex((routine) => {
+      return routine.id === updatedRoutine.id;
+    });
+
+    if (index > -1) {
+      let routineListCopy = [...routineList];
+      routineListCopy[index] = updatedRoutine;
+      setRoutineList(routineListCopy);
+    }
+  }
 
   return (
     <div className="App">
@@ -123,8 +135,10 @@ const App = () => {
             setmyRoutines={setmyRoutines}
             addNewRoutine={addNewRoutine}
             user={user}
-            routineId={routineId}
-            setRoutineId={setRoutineId}
+            routine={routine}
+            setRoutine={setRoutine}
+            updateRoutine={updateRoutine}
+            activityList={activityList}
           />
         </Route>
       </main>

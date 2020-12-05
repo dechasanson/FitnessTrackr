@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { fetchAPI, BASE_URL } from "./api";
 import { Activities, MyRoutines, Routines, Auth, Search } from "./Components";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { clearToken } from "./api";
+//import { clearToken } from "./api";
 import Photo from "./kettles.jpg";
 
 const App = () => {
@@ -14,6 +14,7 @@ const App = () => {
   const [message, setMessage] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
   const [user, setUser] = useState("");
+  const [routineId, setRoutineId] = useState("");
 
   useEffect(() => {
     fetchAPI(BASE_URL + `/routines`)
@@ -108,8 +109,10 @@ const App = () => {
           <Search filterTerm={filterTerm} setFilterTerm={setFilterTerm} />
           <Routines
             routineList={routineList}
+            setRoutineList={setRoutineList}
             filterTerm={filterTerm}
             setFilterTerm={setFilterTerm}
+            isLoggedIn={isLoggedIn}
           />
         </Route>
         <Route exact path="/MyRoutines">
@@ -120,6 +123,8 @@ const App = () => {
             setmyRoutines={setmyRoutines}
             addNewRoutine={addNewRoutine}
             user={user}
+            routineId={routineId}
+            setRoutineId={setRoutineId}
           />
         </Route>
       </main>

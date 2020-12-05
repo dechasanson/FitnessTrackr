@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchAPI, BASE_URL } from "../api";
 
 const MyRoutines = (props) => {
   const [name, setName] = useState("");
   const [goal, setGoal] = useState("");
 
-  const { myRoutines, addNewRoutine, routineList, user } = props;
+  useEffect(() => {
+    setName(routine.name || "");
+    setGoal(routine.goal || "");
+  }, [routineId]);
+
+  const { addNewRoutine, routineList, user, routineId, setRoutineId } = props;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -15,29 +20,27 @@ const MyRoutines = (props) => {
       goal,
       isPublic: true,
     };
-
-    try {
-      const newRoutine = await fetchAPI(
-        `${BASE_URL}/routines`,
-        "POST",
-        sendData
-      );
-      console.log("send-data:", newRoutine);
-      addNewRoutine(newRoutine);
-      setName("");
-      setGoal("");
-    } catch (err) {
-      console.error(err);
+    if (routineId) {
+      try {
+        ///need to adjust fetch to patch here
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const newRoutine = await fetchAPI(
+          `${BASE_URL}/routines`,
+          "POST",
+          sendData
+        );
+        console.log("send-data:", newRoutine);
+        addNewRoutine(newRoutine);
+        setName("");
+        setGoal("");
+      } catch (err) {
+        console.error(err);
+      }
     }
-
-    // addRoutine(newRoutine).then((result) => {
-    //   const routine = result;
-    //   console.log("routine 20 myroutine component", routine);
-    //   const routineListCopy = [...routineList, routine];
-    //   setRoutineList(routineListCopy);
-    //   setName("");
-    //   setGoal("");
-    // });
   };
 
   return (
@@ -71,7 +74,7 @@ const MyRoutines = (props) => {
               <p>Goal: {routine.goal}</p>
               <br />
               <h4>Activities in this Routine:</h4>
-              {/* {myRoutines.activities.map((activity, index) => {
+              {/* {routineList.activities.map((activity, index) => {
               return (
                 <div className="activity" key={index}>
                   <h3>{activity.name}</h3>
@@ -81,6 +84,16 @@ const MyRoutines = (props) => {
                 </div>
               );
             })} */}
+              <button
+                onClick={(event) => {
+                  event.preventDefault();
+                  setRoutineId(routine.id);
+                }}
+              >
+                Edit Routine
+              </button>
+              <button>Add Activities</button>
+              <button>Delete Routine</button>
             </div>
           ) : (
             ""

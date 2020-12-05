@@ -2,7 +2,7 @@ import React from "react";
 import AddActivity from "./AddActivity";
 
 const Activities = (props) => {
-  const { activityList, setActivityList, isLoggedIn, filterTerm } = props;
+  const { activityList, setActivityList, isLoggedIn, filterTerm , setFilterTerm} = props;
 
   return (
     <div className="Activities">
@@ -21,7 +21,13 @@ const Activities = (props) => {
         .map((activity, index) => {
           return (
             <div className="activity" key={index}>
-              <h3>{activity.name}</h3>
+              <a className = "tag" href = "#"
+              onClick = {(event) => {
+                setFilterTerm(event.target.text);
+              }}>
+                {activity.name}
+                </a>
+                
               <p>{activity.description}</p>
             </div>
           );

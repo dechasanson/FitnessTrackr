@@ -1,11 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchAPI, BASE_URL } from "../api";
 
 const MyRoutines = (props) => {
   const [name, setName] = useState("");
   const [goal, setGoal] = useState("");
+  const [placeHolderActivities, setPlaceHolderActivities] = useState([]);
+  const [modal, setModal] = useState(null);
 
-  const { myRoutines, addNewRoutine, routineList, user } = props;
+  useEffect(() => {
+    setName(routine.name || "");
+    setGoal(routine.goal || "");
+  }, []);
+
+  const {
+    addNewRoutine,
+    routineList,
+    user,
+    routine,
+    setRoutine,
+    updateRoutine,
+    activityList,
+  } = props;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -15,29 +30,37 @@ const MyRoutines = (props) => {
       goal,
       isPublic: true,
     };
-
-    try {
-      const newRoutine = await fetchAPI(
-        `${BASE_URL}/routines`,
-        "POST",
-        sendData
-      );
-      console.log("send-data:", newRoutine);
-      addNewRoutine(newRoutine);
-      setName("");
-      setGoal("");
-    } catch (err) {
-      console.error(err);
+    if (routine.id) {
+      try {
+        console.log("I am here!!");
+        const result = await fetchAPI(
+          `${BASE_URL}/routines/${routine.id}`,
+          "PATCH",
+          sendData
+        );
+        updateRoutine(result);
+        console.log("result:", result);
+        console.log("sendData is:", sendData);
+        setName("");
+        setGoal("");
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const newRoutine = await fetchAPI(
+          `${BASE_URL}/routines`,
+          "POST",
+          sendData
+        );
+        console.log("send-data:", newRoutine);
+        addNewRoutine(newRoutine);
+        setName("");
+        setGoal("");
+      } catch (err) {
+        console.error(err);
+      }
     }
-
-    // addRoutine(newRoutine).then((result) => {
-    //   const routine = result;
-    //   console.log("routine 20 myroutine component", routine);
-    //   const routineListCopy = [...routineList, routine];
-    //   setRoutineList(routineListCopy);
-    //   setName("");
-    //   setGoal("");
-    // });
   };
 
   return (
@@ -63,6 +86,7 @@ const MyRoutines = (props) => {
           </button>
         </form>
       </div>
+
       <div className="myRoutines">
         {routineList.map((routine) => {
           return user === routine.creatorId ? (
@@ -70,17 +94,96 @@ const MyRoutines = (props) => {
               <h3>{routine.name}</h3>
               <p>Goal: {routine.goal}</p>
               <br />
-              <h4>Activities in this Routine:</h4>
-              {/* {myRoutines.activities.map((activity, index) => {
-              return (
-                <div className="activity" key={index}>
-                  <h3>{activity.name}</h3>
-                  <p>{activity.description}</p>
-                  <p>Duration: {activity.duration}</p>
-                  <p>Count: {activity.count}</p>
+              <button
+                onClick={(event) => {
+                  event.preventDefault();
+                  setRoutine(routine);
+                  setName(routine.name);
+                  setGoal(routine.goal);
+                }}
+              >
+                Edit Routine
+              </button>
+              <button
+                onClick={(event) => {
+                  event.preventDefault();
+                  setRoutine(routine);
+                  setModal(routine.id);
+                }}
+              >
+                Add Activities
+              </button>
+              <button
+                onClick={(event) => {
+                  event.preventDefault();
+                  setRoutine(routine);
+                }}
+              >
+                Delete Routine
+              </button>
+              {modal === routine.id ? (
+                <div className="routine-modal">
+                  <div>
+                    <select id="routineActivityList">
+                      {activityList.map((activity) => {
+                        return (
+                          <>
+                            {" "}
+                            <option key={activity.id} value={activity.id}>
+                              {activity.name}
+                            </option>
+                          </>
+                        );
+                      })}
+                    </select>
+                    <button
+                      onClick={(event) => {
+                        let e = document.getElementById("routineActivityList");
+                        let result = {
+                          id: e.options[e.selectedIndex].value,
+                          name: e.options[e.selectedIndex].innerText,
+                        };
+
+                        console.log("result is: ", result);
+                        event.preventDefault();
+                        setPlaceHolderActivities([
+                          ...placeHolderActivities,
+                          result,
+                        ]);
+                        console.log(placeHolderActivities);
+                      }}
+                    >
+                      Add this Activity
+                    </button>
+                    {placeHolderActivities.map((activity, index) => {
+                      return (
+                        <div className="activity" key={index}>
+                          <p>{activity.name}</p>
+                          <span>
+                            <input
+                              type="text"
+                              placeHolder="Enter Count"
+                            ></input>
+                            <input
+                              type="text"
+                              placeHolder="Enter Duration"
+                            ></input>
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <button
+                    onClick={(event) => {
+                      event.preventDefault();
+
+                      setPlaceHolderActivities([]);
+                    }}
+                  >
+                    Add Activites to Routine
+                  </button>
                 </div>
-              );
-            })} */}
+              ) : null}
             </div>
           ) : (
             ""

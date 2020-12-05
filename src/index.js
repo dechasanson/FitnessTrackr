@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { fetchAPI, BASE_URL } from "./api";
 import { Activities, MyRoutines, Routines, Auth, Search } from "./Components";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { clearToken } from "./api";
+//import { clearToken } from "./api";
 import Photo from "./kettles.jpg";
 
 const App = () => {
@@ -14,6 +14,7 @@ const App = () => {
   const [message, setMessage] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
   const [user, setUser] = useState("");
+  const [routine, setRoutine] = useState("");
 
   useEffect(() => {
     fetchAPI(BASE_URL + `/routines`)
@@ -40,11 +41,23 @@ const App = () => {
     fetchData();
   }, [isLoggedIn]);
 
-  console.log("the routineList is now:", routineList);
+  console.log("active routine is:", routine);
 
   const addNewRoutine = (newRoutine) => {
     return setRoutineList([newRoutine, ...routineList]);
   };
+
+  function updateRoutine(updatedRoutine) {
+    let index = routineList.findIndex((routine) => {
+      return routine.id === updatedRoutine.id;
+    });
+
+    if (index > -1) {
+      let routineListCopy = [...routineList];
+      routineListCopy[index] = updatedRoutine;
+      setRoutineList(routineListCopy);
+    }
+  }
 
   return (
     <div className="App">
@@ -108,8 +121,10 @@ const App = () => {
           <Search filterTerm={filterTerm} setFilterTerm={setFilterTerm} />
           <Routines
             routineList={routineList}
+            setRoutineList={setRoutineList}
             filterTerm={filterTerm}
             setFilterTerm={setFilterTerm}
+            isLoggedIn={isLoggedIn}
           />
         </Route>
         <Route exact path="/MyRoutines">
@@ -120,6 +135,10 @@ const App = () => {
             setmyRoutines={setmyRoutines}
             addNewRoutine={addNewRoutine}
             user={user}
+            routine={routine}
+            setRoutine={setRoutine}
+            updateRoutine={updateRoutine}
+            activityList={activityList}
           />
         </Route>
       </main>

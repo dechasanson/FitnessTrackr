@@ -12,7 +12,7 @@
   font-family: sans-serif;
   width: 100vw;
   height: 100vh;
-  background-color: #63def4;
+  background-color: #4dd5e4;
   overflow: scroll;
 }
 
@@ -218,7 +218,8 @@ header > h1 {
 
 .newActivity button,
 .newRoutineForm button,
-.search button {
+.search button,
+.routine button {
   grid-row: 4;
   background-color: #3af2bf;
   color: black;
@@ -249,11 +250,14 @@ header > h1 {
 
 .routine {
   padding: 10px;
-  margin-bottom: 10px;
-  margin-right: 10px;
+  margin: 0px 10px 10px 10px;
   box-shadow: 3px 3px 5px black;
   color: white;
   background-color: #3d97fc;
+}
+
+.routine button {
+  width: 200px;
 }
 
 .routine h3 {
@@ -284,3 +288,15 @@ main {
   background-color: #3d97fc;
   border-radius: none;
 } */
+
+.routine-modal {
+  width: 75%;
+  height: 200px;
+  z-index: 1;
+  background-color: white;
+  margin: auto auto;
+}
+
+.myRoutines {
+  z-index: -1;
+}

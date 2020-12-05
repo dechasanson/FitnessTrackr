@@ -1,34 +1,31 @@
 import React from "react";
+import AddActivity from "./AddActivity";
 
 const Activities = (props) => {
-  const { activityList } = props;
-
-  /*const handleDelete = (id, index) => {
-    deleteActivity(id).then((results) => {
-      const activitesCopy = activityList.slice();
-      activityCopy.splice(index, 1);
-      setActivityList(activitesCopy);
-    });*/
+  const { activityList, setActivityList, isLoggedIn, filterTerm } = props;
 
   return (
     <div className="Activities">
-      {activityList.map((activity, index) => {
-        return (
-          <div className="activity" key={index}>
-            <h3>{activity.name}</h3>
-            <p>{activity.description}</p>
-            {/*
-            <button
-              onClick={() => {
-                handleDelete(activity.id, index);
-              }}
-            >
-              Delete
-            </button>
-            */}
-          </div>
-        );
-      })}
+      {isLoggedIn ? (
+        <AddActivity
+          activityList={activityList}
+          setActivityList={setActivityList}
+        />
+      ) : (
+        ""
+      )}
+      {activityList
+        .filter(function (activity) {
+          return activity.name.toLowerCase().includes(filterTerm.toLowerCase());
+        })
+        .map((activity, index) => {
+          return (
+            <div className="activity" key={index}>
+              <h3>{activity.name}</h3>
+              <p>{activity.description}</p>
+            </div>
+          );
+        })}
     </div>
   );
 };

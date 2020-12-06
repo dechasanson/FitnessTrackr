@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { fetchAPI, BASE_URL } from "./api";
 import { Activities, MyRoutines, Routines, Auth, Search } from "./Components";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-//import { clearToken } from "./api";
+import { clearToken } from "./api";
 import Photo from "./kettles.jpg";
 
 const App = () => {
@@ -41,23 +41,11 @@ const App = () => {
     fetchData();
   }, [isLoggedIn]);
 
-  console.log("active routine is:", routine);
-
   const addNewRoutine = (newRoutine) => {
     return setRoutineList([newRoutine, ...routineList]);
   };
 
-  function updateRoutine(updatedRoutine) {
-    let index = routineList.findIndex((routine) => {
-      return routine.id === updatedRoutine.id;
-    });
-
-    if (index > -1) {
-      let routineListCopy = [...routineList];
-      routineListCopy[index] = updatedRoutine;
-      setRoutineList(routineListCopy);
-    }
-  }
+  console.log("the routine list is:", routineList);
 
   return (
     <div className="App">
@@ -85,7 +73,7 @@ const App = () => {
               <button
                 className="logout-button"
                 onClick={() => {
-                  // clearToken();
+                  clearToken();
                   setIsLoggedIn(false);
                   setMessage("");
                 }}
@@ -137,7 +125,6 @@ const App = () => {
             user={user}
             routine={routine}
             setRoutine={setRoutine}
-            updateRoutine={updateRoutine}
             activityList={activityList}
           />
         </Route>

@@ -1,37 +1,53 @@
 import React from "react";
 
-
-
 const Routines = (props) => {
-  const { routineList, filterTerm, setFilterTerm} = props;
+  const { routineList, filterTerm, setFilterTerm } = props;
 
   return (
     <div className="routines">
       {routineList
         .filter(function (routine) {
-          return routine.creatorName.toLowerCase().includes(filterTerm.toLowerCase()) || routine.name.toLowerCase().includes(filterTerm.toLowerCase());
-           })
+          return (
+            routine.creatorName
+              .toLowerCase()
+              .includes(filterTerm.toLowerCase()) ||
+            routine.name.toLowerCase().includes(filterTerm.toLowerCase())
+          );
+        })
         .map((routine, index) => {
           return (
             <div className="routine" key={index}>
-              <h3>{routine.name}</h3>
+              <h2>{routine.name}</h2>
               <p>Goal: {routine.goal}</p>
-              <span><a className = "tag" href = "#" 
-             onClick = {(event) => {
-              //  console.log(event.target.text)
-              setFilterTerm(routine.creatorName);
-             }}>See All Routines by {" "}
-               {routine.creatorName}
-             </a>
-             </span>
-              <h4>Activities in this Routine:</h4>
+              <p>
+                Created by:{""}
+                <span>
+                  <a
+                    className="tag"
+                    href="#"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setFilterTerm(routine.creatorName);
+                    }}
+                  >
+                    {""}
+                    {routine.creatorName}
+                  </a>
+                </span>
+              </p>
+              {routine.activities.length > 0 ? (
+                <h3>Activities in this Routine:</h3>
+              ) : null}
               {routine.activities.map((activity, index) => {
                 return (
                   <div className="activity" key={index}>
                     <h3>{activity.name}</h3>
                     <p>{activity.description}</p>
+                    <p>
+                      Do this: {activity.count}{" "}
+                      {activity.count > 1 ? "times" : "time"}
+                    </p>
                     <p>Duration: {activity.duration}</p>
-                    <p>Count: {activity.count}</p>
                   </div>
                 );
               })}

@@ -24,7 +24,7 @@
 
 .homePhoto {
   height: 700px;
-  opacity: 80%;
+  opacity: 40%;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -48,15 +48,15 @@ main {
   margin-right: 10px;
 }
 
-a,
+nav a,
 .auth button,
 .logout button {
   padding: 10px;
   margin: 10px 0px 15px 10px;
 }
 
-a:link,
-a:visited,
+nav a:link,
+nav a:visited,
 .auth button,
 .logout button {
   background-color: #3af2bf;
@@ -147,14 +147,10 @@ header > h1 {
   grid-row: 1;
 }
 
-/* header .nav {
-  grid-column: 2;
-} */
-
-.activities {
+.Activities {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  /* grid-template-rows: repeat(auto-fit, minmax(100px, 1fr)); */
   grid-gap: 10px;
   margin: 10px 10px 10px 10px;
 }
@@ -165,6 +161,15 @@ header > h1 {
   box-shadow: 3px 3px 5px black;
   color: white;
   background-color: #43bae6;
+  font-family: monospace;
+  font-size: 18px;
+}
+
+.activity h2 {
+  padding-bottom: 10px;
+  color: #4d344c;
+  font-family: monospace;
+  text-decoration: underline;
 }
 
 .newActivity form,
@@ -263,6 +268,7 @@ header > h1 {
 .routine h3 {
   font-size: 18px;
   text-decoration: underline;
+  padding-top: 10px;
 }
 
 .message {
@@ -279,24 +285,36 @@ main {
   margin-left: 0px;
 }
 
-/* a.tag  {
+/* a #link .tag {
   padding: none;
   margin-bottom: none;
   margin-right: none;
   box-shadow: none;
   color: white;
-  background-color: #3d97fc;
-  border-radius: none;
 } */
-
-.routine-modal {
-  width: 75%;
-  height: 200px;
+*/ .routine-modal {
   z-index: 1;
-  background-color: white;
+  background-color: #3d97fc;
   margin: auto auto;
 }
 
-.myRoutines {
+.routine-modal select {
+  padding: 10px;
+  margin-left: 5px;
+}
+
+.activity input {
+  padding: 10px;
+  margin-right: 10px;
+  font-family: monospace;
+}
+
+.myRoutines .routine {
   z-index: -1;
+}
+
+.tag {
+  margin-left: 2px;
+  margin-bottom: 5px;
+  color: #3af2bf;
 }

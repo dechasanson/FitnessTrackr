@@ -8,10 +8,6 @@ const Auth = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  function logUserIn() {
-    setIsLoggedIn(true);
-  }
-
   return (
     <form className="auth" onSubmit={(event) => event.preventDefault()}>
       <h3>Log-In or Sign-Up</h3>
@@ -41,7 +37,7 @@ const Auth = (props) => {
               setMessage(result.error);
               return <h5 className="message">{message}</h5>;
             } else {
-              logUserIn();
+              setIsLoggedIn(true);
               setMessage(result.message);
             }
           } catch (err) {
@@ -61,7 +57,7 @@ const Auth = (props) => {
               setMessage(result.error);
               return <h5 className="message">{message}</h5>;
             } else {
-              logUserIn();
+              setIsLoggedIn(true);
               setMessage(result.message);
             }
           } catch (err) {

@@ -35,22 +35,23 @@ const Routines = (props) => {
                   </a>
                 </span>
               </p>
-              {routine.activities.length > 0 ? (
+              {routine.activities && routine.activities.length > 0 ? (
                 <h3>Activities in this Routine:</h3>
               ) : null}
-              {routine.activities.map((activity, index) => {
-                return (
-                  <div className="activity" key={index}>
-                    <h3>{activity.name}</h3>
-                    <p>{activity.description}</p>
-                    <p>
-                      Do this: {activity.count}{" "}
-                      {activity.count > 1 ? "times" : "time"}
-                    </p>
-                    <p>Duration: {activity.duration}</p>
-                  </div>
-                );
-              })}
+              {routine.activities &&
+                routine.activities.map((activity, index) => {
+                  return (
+                    <div className="activity" key={index}>
+                      <h3>{activity.name}</h3>
+                      <p>{activity.description}</p>
+                      <p>
+                        Do this: {activity.count}{" "}
+                        {activity.count > 1 ? "times" : "time"}
+                      </p>
+                      <p>Duration: {activity.duration}</p>
+                    </div>
+                  );
+                })}
             </div>
           );
         })}

@@ -81,6 +81,13 @@ a:active {
   transform: translateY(4px);
 }
 
+a.tag:hover {
+  background-color: #43bae6;
+  font-size: 18px;
+  box-shadow: none;
+  transform: none;
+}
+
 .auth,
 .auth input {
   padding: 10px;
@@ -165,11 +172,21 @@ header > h1 {
   font-size: 18px;
 }
 
-.activity h2 {
+.activity h2,
+.activity h3 {
   padding-bottom: 10px;
-  color: #4d344c;
+  color: white;
+  text-shadow: 2px 2px 2px black;
   font-family: monospace;
-  text-decoration: underline;
+}
+
+.routine h2 {
+  text-shadow: 2px 2px 2px black;
+  font-size: 22px;
+}
+
+.routine p {
+  padding: 5px;
 }
 
 .newActivity form,
@@ -266,8 +283,7 @@ header > h1 {
 }
 
 .routine h3 {
-  font-size: 18px;
-  text-decoration: underline;
+  font-size: 20px;
   padding-top: 10px;
 }
 
@@ -285,14 +301,7 @@ main {
   margin-left: 0px;
 }
 
-/* a #link .tag {
-  padding: none;
-  margin-bottom: none;
-  margin-right: none;
-  box-shadow: none;
-  color: white;
-} */
-*/ .routine-modal {
+.routine-modal {
   z-index: 1;
   background-color: #3d97fc;
   margin: auto auto;

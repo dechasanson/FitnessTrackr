@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { fetchAPI, BASE_URL } from "./api";
 import { Activities, MyRoutines, Routines, Auth, Search } from "./Components";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
 import { clearToken } from "./api";
 import Photo from "./kettles.jpg";
 
@@ -13,7 +18,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [message, setMessage] = useState("");
   const [filterTerm, setFilterTerm] = useState("");
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({});
   const [routine, setRoutine] = useState("");
 
   useEffect(() => {
@@ -22,7 +27,7 @@ const App = () => {
         setRoutineList(data);
       })
       .catch(console.error);
-  }, [isLoggedIn]);
+  }, []);
 
   useEffect(() => {
     fetchAPI(BASE_URL + `/activities`)
@@ -35,7 +40,7 @@ const App = () => {
   useEffect(() => {
     async function fetchData() {
       const resp = await fetchAPI(BASE_URL + `/users/me`);
-      const user = resp.id;
+      const user = resp;
       setUser(user);
     }
     fetchData();
@@ -46,6 +51,8 @@ const App = () => {
   };
 
   console.log("the routine list is:", routineList);
+
+  let history = useHistory();
 
   return (
     <div className="App">
@@ -76,6 +83,8 @@ const App = () => {
                   clearToken();
                   setIsLoggedIn(false);
                   setMessage("");
+                  history.push("/");
+                  setRoutine("");
                 }}
               >
                 LOG OUT
@@ -126,6 +135,7 @@ const App = () => {
             routine={routine}
             setRoutine={setRoutine}
             activityList={activityList}
+            isLoggedIn={isLoggedIn}
           />
         </Route>
       </main>

@@ -21,9 +21,9 @@ const MyRoutines = (props) => {
     user,
     routine,
     setRoutine,
-    updateRoutine,
     activityList,
     setRoutineList,
+    isLoggedIn,
   } = props;
 
   const handleSubmit = async (event) => {
@@ -56,7 +56,15 @@ const MyRoutines = (props) => {
           "POST",
           sendData
         );
+        newRoutine.creatorName = user.username;
+        console.log("the newRoutine response is:", newRoutine);
         addNewRoutine(newRoutine);
+        //let updatedRoutineList = [...routineList];
+        // let creatorName = user.username;
+        // console.log("the username is:", creatorName);
+        // let index = routineList.indexOf(routine);
+        // updatedRoutineList[index].creatorName = creatorName;
+        // console.log("the creatorName is now:", routine.creatorName);
         setName("");
         setGoal("");
       } catch (err) {
@@ -88,47 +96,49 @@ const MyRoutines = (props) => {
 
   return (
     <>
-      <div className="newRoutine">
-        <form onSubmit={handleSubmit} className="newRoutineForm">
-          {routine && name !== "" ? (
-            <h3>Edit Routine</h3>
-          ) : (
-            <h3>Create Routine</h3>
-          )}
-          <input
-            type="text"
-            value={name}
-            placeholder="Routine Name"
-            onChange={(e) => setName(e.target.value)}
-          ></input>
-          <textarea
-            type="text"
-            value={goal}
-            placeholder="Description of Routine"
-            onChange={(e) => setGoal(e.target.value)}
-          ></textarea>
+      {isLoggedIn ? (
+        <div className="newRoutine">
+          <form onSubmit={handleSubmit} className="newRoutineForm">
+            {routine && name !== "" ? (
+              <h3>Edit Routine</h3>
+            ) : (
+              <h3>Create Routine</h3>
+            )}
+            <input
+              type="text"
+              value={name}
+              placeholder="Routine Name"
+              onChange={(e) => setName(e.target.value)}
+            ></input>
+            <textarea
+              type="text"
+              value={goal}
+              placeholder="Description of Routine"
+              onChange={(e) => setGoal(e.target.value)}
+            ></textarea>
 
-          <button className="Submit" type="submit" value="Submit">
-            Submit
-          </button>
-          {routine.id && name !== "" ? (
-            <button
-              onClick={(event) => {
-                event.preventDefault();
-                setRoutine("");
-                setName("");
-                setGoal("");
-              }}
-            >
-              Cancel
+            <button className="Submit" type="submit" value="Submit">
+              Submit
             </button>
-          ) : null}
-        </form>
-      </div>
+            {routine.id && name !== "" ? (
+              <button
+                onClick={(event) => {
+                  event.preventDefault();
+                  setRoutine("");
+                  setName("");
+                  setGoal("");
+                }}
+              >
+                Cancel
+              </button>
+            ) : null}
+          </form>
+        </div>
+      ) : null}
 
       <div className="myRoutines" className="routines">
         {routineList.map((routine) => {
-          return user === routine.creatorId ? (
+          return user.id === routine.creatorId ? (
             <div className="routine" key={routine.id}>
               <h2>{routine.name}</h2>
               <p>Goal: {routine.goal}</p>
@@ -136,7 +146,7 @@ const MyRoutines = (props) => {
               {console.log(routine.activities)}
               {routine.activities &&
                 routine.activities.map((activity, index) => {
-                  return user === routine.creatorId ? (
+                  return user.id === routine.creatorId ? (
                     <>
                       <div className="activity" key={index}>
                         <h2>{activity.name}</h2>
@@ -277,7 +287,18 @@ const MyRoutines = (props) => {
                 onClick={(event) => {
                   event.preventDefault();
                   setRoutine(routine);
+                  console.log("the routine is:", routine);
                   setModal(routine.id);
+                  if (routine.activities) {
+                    return;
+                  } else {
+                    let newRoutineList = [...routineList];
+                    let newActivitiesList = (routine.activities = []);
+                    let index = routineList.indexOf(routine);
+                    routineList[index].activities = newActivitiesList;
+                    newRoutineList.splice(index, 1, routine);
+                    setRoutineList(newRoutineList);
+                  }
                 }}
               >
                 Add Activities
@@ -401,6 +422,10 @@ const MyRoutines = (props) => {
                                   const newList = [...routineList];
                                   let idx = newList.indexOf(routine);
                                   console.log("the index of the push is", idx);
+                                  console.log(
+                                    "the newList[index] is",
+                                    newList[idx]
+                                  );
                                   newList[idx].activities.push(newActivity);
                                   setRoutineList(newList);
 
